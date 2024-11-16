@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			img {
+				width: 100px;
+				height: auto;
+			}
+		</style>
+		
+		
+	</head>
+	<body>
+		<button id="init" onclick="init()">Init</button><br/>
+		<button id="play" onclick="play()"><img src="play.png"/></button><br/>
+		Include black keys: <input type="checkbox" id="bb"/><br/>
+		<button id="ref" onclick="ref()"><img src="fork.png"/></button><br/>
+		<select id="ans"></select><br/>
+		Sharp: <input type="checkbox" id="ansSharp"/><br/>
+		<button id="submit" onclick="sub()"><img src="send.png"/></button><br/>
+		<p id="display"></p>
+		<p id="accuracy"></p>
+		<script src="http://unpkg.com/tone"></script>
+		<script>
+			var idx, name, sharp, num, str, black;
+			var right = 0, all = 0;
+			var names = ["C", "D", "E", "F", "G", "A", "B"];
+			var ans = document.getElementById("ans");
+
+			black = document.getElementById("bb").checked;
+			for (let i = 0; i < names.length; i++) {
+				ans.add(new Option(names[i], names[i]));
+			}
+
+			
+			gen();
+			
+			function init()
+			{
+				Tone.start();
+			}
+			
+			function gen()
+			{
+				black = document.getElementById("bb").checked;
+				idx = Math.floor(Math.random() * 7);
+				name = names[idx];
+				var t = Math.round(Math.random());
+				if ((black && t == 1))
+					sharp = "#";
+				else
+					sharp = "";
+				num = Math.floor(Math.random() * 4) + 2;
+				str = name + sharp + num;
+				console.log(str);
+			}
+
+			function play()
+			{
+				Tone.start();
+				let synth = new Tone.Synth().toDestination();
+				synth.triggerAttackRelease(str, "8n");
+			}
+
+			function ref()
+			{
+				Tone.start();
+				let synth = new Tone.Synth().toDestination();
+				synth.triggerAttackRelease("A4", "8n");
+			}
+
+			function sub()
+			{
+				var ansSharp = (document.getElementById("ansSharp").checked) ? "#" : "";
+				var ansValue = ans[ans.selectedIndex].text + ansSharp;
+				var answer = str.substring(0, str.length - 1);
+				console.log(ansValue);
+				console.log(answer);
+				if (ansValue == answer)
+				{
+					document.getElementById("display").innerText = "correct";
+					right++;
+					all++;
+					document.getElementById("accuracy").innerText = "Accuracy: " + right / all;
+					gen();
+					return;
+				}
+				if ((ansValue == "F" && answer == "E#") || (ansValue == "E#" && answer == "F") ||
+				 (ansValue == "B#" && answer == "C") || (ansValue == "C" && answer == "B#"))
+				{
+					document.getElementById("display").innerText = "correct, it's " + str;
+					right++;
+					all++;
+					document.getElementById("accuracy").innerText = "Accuracy: " + right / all;
+					gen();
+					return;
+				}
+				document.getElementById("display").innerText = "nah, it's " + str;
+				all++;
+				document.getElementById("accuracy").innerText = "Accuracy: " + right / all;
+				gen();
+				return;
+			}
+		</script>
+	</body>
+</html>
