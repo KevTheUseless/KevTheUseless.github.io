@@ -32,12 +32,14 @@
 				ans.add(new Option(names[i], names[i]));
 			}
 
-			
+			const audioElement = new Audio("silent.mp3");
+
 			gen();
 			
 			function init()
 			{
 				Tone.start();
+				audioElement.play();
 			}
 			
 			function gen()
