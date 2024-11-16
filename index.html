@@ -11,7 +11,7 @@
 		
 	</head>
 	<body>
-		<button id="init">Init</button><br/>
+		<button id="init" onclick="init()">Init</button><br/>
 		<button id="play" onclick="play()"><img src="play.png"/></button><br/>
 		Include black keys: <input type="checkbox" id="bb"/><br/>
 		<button id="ref" onclick="ref()"><img src="fork.png"/></button><br/>
@@ -38,6 +38,10 @@
 			
 			gen();
 			
+			function init()
+			{
+				Tone.start();
+			}
 			
 			function gen()
 			{
