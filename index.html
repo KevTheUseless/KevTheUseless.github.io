@@ -38,6 +38,7 @@
 			function init()
 			{
 				Tone.start();
+				synth.context.resume();
 			}
 			
 			function gen()
@@ -58,6 +59,7 @@
 			function play()
 			{
 				Tone.start();
+				synth.context.resume();
 				let synth = new Tone.Synth().toDestination();
 				synth.triggerAttackRelease(str, "8n");
 			}
@@ -65,6 +67,7 @@
 			function ref()
 			{
 				Tone.start();
+				synth.context.resume();
 				let synth = new Tone.Synth().toDestination();
 				synth.triggerAttackRelease("A4", "8n");
 			}
